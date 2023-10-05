@@ -1,6 +1,6 @@
 
 <h1 align="center">
-  <img src="https://github.com/MrT-Stephens/CSharp-MS-Calculator/blob/master/Images/calculator.png" alt="drawing" width="200"/>
+  <img src="https://github.com/MrT-Stephens/CSharp-Simple-Timer/blob/master/Images/timer.png" alt="drawing" width="200"/>
   <br>
   C# Simple Timer
   <br>
@@ -14,8 +14,8 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/MrT-Stephens/CSharp-MS-Calculator/blob/master/Images/calculator-application-1.png" alt="drawing" align="center"/>
-  <img src="https://github.com/MrT-Stephens/CSharp-MS-Calculator/blob/master/Images/calculator-application-2.png" alt="drawing" align="center"/>
+  <img src="https://github.com/MrT-Stephens/CSharp-Simple-Timer/blob/master/Images/timer-app-1.png" alt="drawing" align="center"/>
+  <img src="https://github.com/MrT-Stephens/CSharp-Simple-Timer/blob/master/Images/timer-app-1.png" alt="drawing" align="center"/>
 </p>
 
 ## Key Features
