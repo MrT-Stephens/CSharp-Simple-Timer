@@ -70,14 +70,14 @@ namespace Timer_MrT
         }
     }
 
-    struct Lap
+    internal struct Lap
     {
         public int lapNumber;
         public double lapTime;
         public double totalTime;
     }
 
-    class Timer_MrT
+    internal class Timer_MrT
     {
         // Timer Items
         private System.Timers.Timer timer;
