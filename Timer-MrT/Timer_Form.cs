@@ -1,4 +1,4 @@
-using System;
+using System.Diagnostics;
 using System.Timers;
 
 namespace Timer_MrT
@@ -11,15 +11,18 @@ namespace Timer_MrT
         {
             InitializeComponent();
 
-            timer = new Timer_MrT(50);
+            timer = new Timer_MrT(1);
 
             timer.Elapsed += (sender, e) =>
             {
                 timeTextBox.Invoke(new Action(() =>
                 {
-                    timeTextBox.Text = (TimeSpan.FromMilliseconds(timer.ElapsedTime)).ToString(@"hh\:mm\:ss\.ff");
+                    timeTextBox.Text = (TimeSpan.FromMicroseconds(timer.ElapsedTimeMicroseconds)).ToString(@"hh\:mm\:ss\.ffffff");
                 }));
             };
+
+            timeTextBox.SelectionStart = timeTextBox.Text.Length;
+            timeTextBox.SelectionLength = 0;
         }
 
         private void startStopBtn_Click(object sender, EventArgs e)
@@ -34,15 +37,7 @@ namespace Timer_MrT
             {
                 startStopBtn.Text = "Start";
                 timer.Stop();
-
-                if (lapsTextBox.Text.Length > 0)
-                {
-                    lapResetBtn.Text = "Reset";
-                }
-                else
-                {
-                    lapResetBtn.Text = "Lap";
-                }
+                lapResetBtn.Text = "Reset";
             }
         }
 
@@ -52,7 +47,6 @@ namespace Timer_MrT
             {
                 timer.Reset();
                 lapsTextBox.Text = "";
-                lapsTextBox.Visible = false;
 
 
                 if (startStopBtn.Text == "Stop")
@@ -66,15 +60,12 @@ namespace Timer_MrT
 
                 if (lapsTextBox.Text == "")
                 {
-                    lapsTextBox.Visible = true;
-                    lapsTextBox.AppendText("Lap     Lap Time     Total Time" + Environment.NewLine);
+                    lapsTextBox.AppendText("Lap         Lap Time                  Total Time            " + Environment.NewLine);
                 }
 
-                string lapString = "Lap " + timer.currentLaps.Count.ToString() + "  "
-                    + (TimeSpan.FromMilliseconds(timer.currentLaps.Last().lapTime)).ToString(@"hh\:mm\:ss\.ff") + "  "
-                    + (TimeSpan.FromMilliseconds(timer.currentLaps.Last().totalTime)).ToString(@"hh\:mm\:ss\.ff");
-
-                lapsTextBox.AppendText(lapString + Environment.NewLine);
+                lapsTextBox.AppendText("Lap " + timer.CurrentLaps.Last().lapNumber.ToString() + "     "
+                    + (TimeSpan.FromMicroseconds(timer.CurrentLaps.Last().lapTime)).ToString(@"hh\:mm\:ss\.ffffff") + "     "
+                    + (TimeSpan.FromMicroseconds(timer.CurrentLaps.Last().totalTime)).ToString(@"hh\:mm\:ss\.ffffff") + Environment.NewLine);
             }
         }
     }
@@ -88,62 +79,86 @@ namespace Timer_MrT
 
     class Timer_MrT
     {
+        // Timer Items
         private System.Timers.Timer timer;
-        private double elapsedTime = 0; // Elapsed time in milliseconds
+        private Stopwatch stopwatch = new Stopwatch(); // Using Stopwatch for high-resolution timing
+
+        // Laps Items
+        private double lapElapsedTime = 0;
         private List<Lap> laps = new List<Lap>();
 
-        public Timer_MrT(double interval)
+        public Timer_MrT(double intervalMicroseconds)
         {
-            timer = new System.Timers.Timer(interval);
+            timer = new System.Timers.Timer(intervalMicroseconds / 1000000); // Convert microseconds to milliseconds
+
             timer.Elapsed += TimerElapsed;
         }
 
-        public double ElapsedTime
+        public double ElapsedTimeMicroseconds
         {
-            get { return elapsedTime; }
+            get { return stopwatch.ElapsedTicks * (1000000.0 / Stopwatch.Frequency); }
         }
 
         public event EventHandler Elapsed;
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            elapsedTime += timer.Interval;
+            stopwatch.Start(); // Start or resume the stopwatch
             Elapsed?.Invoke(this, EventArgs.Empty);
         }
 
         public void Start()
         {
+            stopwatch.Start(); // Start the stopwatch
             timer.Start();
         }
 
         public void Stop()
         {
+            stopwatch.Stop(); // Stop the stopwatch
             timer.Stop();
         }
 
         public void AddLap()
         {
+            double elapsedTicks = stopwatch.ElapsedTicks;
+            double lapTicks;
+
+            if (laps.Count == 0)
+            {
+                lapTicks = elapsedTicks;
+            }
+            else
+            {
+                lapTicks = elapsedTicks - lapElapsedTime;
+            }
+
             laps.Add(new Lap()
             {
                 lapNumber = laps.Count + 1,
-                lapTime = (laps.Count > 1) ? elapsedTime - laps.ElementAt(laps.Count - 1).lapTime : elapsedTime,
-                totalTime = elapsedTime
+                lapTime = lapTicks * (1000000.0 / Stopwatch.Frequency),         // Convert ticks to microseconds
+                totalTime = elapsedTicks * (1000000.0 / Stopwatch.Frequency)    // Convert ticks to microseconds
             });
+
+            lapElapsedTime += lapTicks;
         }
 
-        public List<Lap> currentLaps
+        public List<Lap> CurrentLaps
         {
             get { return laps; }
         }
 
         public void Reset()
         {
+            stopwatch.Stop(); // Stop the stopwatch
             timer.Stop();
 
-            elapsedTime = 0;
-            laps.Clear();
+            stopwatch.Reset(); // Reset the stopwatch
+            lapElapsedTime = 0;
+            laps = new List<Lap>();
 
             Elapsed?.Invoke(this, EventArgs.Empty);
         }
     }
+
 }
