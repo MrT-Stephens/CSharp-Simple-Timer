@@ -15,7 +15,7 @@
 
 <p align="center">
   <img src="https://github.com/MrT-Stephens/CSharp-Simple-Timer/blob/master/Images/timer-app-1.png" alt="drawing" align="center"/>
-  <img src="https://github.com/MrT-Stephens/CSharp-Simple-Timer/blob/master/Images/timer-app-1.png" alt="drawing" align="center"/>
+  <img src="https://github.com/MrT-Stephens/CSharp-Simple-Timer/blob/master/Images/timer-app-2.png" alt="drawing" align="center"/>
 </p>
 
 ## Key Features
