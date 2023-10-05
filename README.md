@@ -20,14 +20,10 @@
 
 ## Key Features
 
-* Basic operations like multiply, subtract, add, and divide.
-* More advanced operations like square root, percentage, reciprocal, and switch sign.
-* Save, read and manipulate a number in memory.
-    - Memory Save: Saves the number in the entry into memory.
-    - Memory Read: Reads the number saved into memory into the entry text box.
-    - Memory Add: Adds the current number in the entry to the number in memory.
-    - Memory Subtract: Subtracts the current number in the entry from the number in memory.
-* Visually see your calculation in the second text box.
+* Basic controls like start, stop and reset.
+* More advanced control cabled lap.
+  - Allows you to time a lap and will display the lap time and overall time on screen.
+* Has microsecond precision on the timer and laps.
 
 ## How To Use
 
