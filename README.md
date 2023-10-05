@@ -21,7 +21,7 @@
 ## Key Features
 
 * Basic controls like start, stop and reset.
-* More advanced control cabled lap.
+* More advanced control called lap.
   - Allows you to time a lap and will display the lap time and overall time on screen.
 * Has microsecond precision on the timer and laps.
 
@@ -31,10 +31,10 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [V
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/MrT-Stephens/Grade-Calculator-And-Predictor-Uni-Assessment
+$ git clone https://github.com/MrT-Stephens/CSharp-Simple-Timer.git
 
 # Go into the repository
-$ cd Grade-Calculator-And-Predictor-Uni-Assessment
+$ cd CSharp-Simple-Timer
 ```
 > **Note**
 > Open the '.sln' once cloned as this will open the project directly in [Visual Studio](https://visualstudio.microsoft.com/).
